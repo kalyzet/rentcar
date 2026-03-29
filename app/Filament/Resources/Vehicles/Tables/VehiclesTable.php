@@ -17,8 +17,7 @@ class VehiclesTable
 
                 Tables\Columns\ImageColumn::make('foto')
                     ->label('Foto')
-                    ->getStateUsing(fn($record) => $record->foto)
-                    ->disk('public')
+                    ->getStateUsing(fn($record) => $record->foto ? asset('storage/' . $record->foto) : null)
                     ->height(70),
 
                 Tables\Columns\TextColumn::make('nama')

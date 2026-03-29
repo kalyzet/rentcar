@@ -72,7 +72,7 @@
                     class="flex flex-col p-6 transition-shadow duration-300 bg-white border border-gray-100 rounded-3xl hover:shadow-lg">
                     <div
                         class="aspect-[16/10] w-full rounded-2xl overflow-hidden mb-5 bg-gray-50 flex items-center justify-center">
-                        <img src="{{ $vehicle->foto ? asset('storage/vehicles/' . $vehicle->foto) : 'https://placehold.co/400x250?text=No+Photo' }}"
+                        <img src="{{ $vehicle->foto ? asset('storage/' . $vehicle->foto) : 'https://placehold.co/400x250?text=No+Photo' }}"
                             alt="{{ $vehicle->nama }}" class="object-contain max-h-full">
                     </div>
 
@@ -137,7 +137,7 @@
                     <h2 class="text-2xl font-bold text-gray-800">Detail & Booking Kendaraan</h2>
 
                     <div class="aspect-[16/10] w-full bg-gray-50 rounded-2xl flex items-center justify-center p-4">
-                        <img :src="selectedVehicle?.foto ? '/storage/vehicles/' + selectedVehicle.foto :
+                        <img :src="selectedVehicle?.foto ? '/storage/' + selectedVehicle.foto :
                             'https://placehold.co/400x250?text=No+Photo'"
                             :alt="selectedVehicle?.nama" class="object-contain max-h-full">
                     </div>

@@ -7,6 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\Facades\Storage;
 
 class VehicleForm
 {
@@ -51,7 +52,24 @@ class VehicleForm
                     ->directory('vehicles')
                     ->visibility('public')
                     ->imagePreviewHeight('120')
-                    ->saveUploadedFileUsing(fn($file) => $file->store('vehicles', 'public'))
+                    ->saveUploadedFileUsing(function ($file) {
+                        return $file->store('vehicles', 'public');
+                    })
+                    ->getUploadedFileUsing(function (string $file): ?array {
+                        if (!Storage::disk('public')->exists($file)) {
+                            return null;
+                        }
+
+                        $fullPath = Storage::disk('public')->path($file);
+                        $url = asset('storage/' . $file);
+
+                        return [
+                            'name' => basename($file),
+                            'size' => Storage::disk('public')->size($file),
+                            'type' => mime_content_type($fullPath) ?: 'image/jpeg',
+                            'url'  => $url,
+                        ];
+                    })
                     ->nullable(),
 
             ]);
