@@ -49,7 +49,10 @@ class VehicleForm
                     ->image()
                     ->disk('public')
                     ->directory('vehicles')
-                    ->imagePreviewHeight('120'),
+                    ->visibility('public')
+                    ->imagePreviewHeight('120')
+                    ->saveUploadedFileUsing(fn($file) => $file->store('vehicles', 'public'))
+                    ->nullable(),
 
             ]);
     }

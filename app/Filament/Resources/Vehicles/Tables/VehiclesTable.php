@@ -14,8 +14,12 @@ class VehiclesTable
     {
         return $table
             ->columns([
+
                 Tables\Columns\ImageColumn::make('foto')
-                    ->label('Foto'),
+                    ->label('Foto')
+                    ->getStateUsing(fn($record) => $record->foto)
+                    ->disk('public')
+                    ->height(70),
 
                 Tables\Columns\TextColumn::make('nama')
                     ->searchable()
@@ -34,6 +38,7 @@ class VehiclesTable
                 Tables\Columns\TextColumn::make('harga_per_hari')
                     ->money('IDR')
                     ->sortable(),
+
             ])
             ->filters([
                 //
