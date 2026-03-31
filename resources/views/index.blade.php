@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentalGo - Sewa Mobil & Motor Mudah di Banjarmasin</title>
+    <title>Rentalyzet - Sewa Mobil & Motor Mudah di Banjarmasin</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -28,7 +28,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <span class="text-2xl font-bold text-gray-800">Rental<span class="text-teal-600">Go</span></span>
+                <span class="text-2xl font-bold text-gray-800">Rental<span class="text-teal-600">yzet</span></span>
             </div>
             <div class="flex items-center gap-6 text-sm font-medium text-gray-600">
                 <a href="#" class="hover:text-teal-600">Katalog</a>

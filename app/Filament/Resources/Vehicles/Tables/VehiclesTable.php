@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\Vehicles\Tables;
 
-use Filament\Tables;
-use Filament\Tables\Table;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Tables;
+use Filament\Tables\Table;
 
 class VehiclesTable
 {
@@ -22,7 +24,9 @@ class VehiclesTable
 
                 Tables\Columns\TextColumn::make('nama')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->description(fn($record) => $record->plat_nomor)
+                    ->weight('medium'),
 
                 Tables\Columns\TextColumn::make('deskripsi')
                     ->limit(40),
@@ -43,7 +47,9 @@ class VehiclesTable
                 //
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
