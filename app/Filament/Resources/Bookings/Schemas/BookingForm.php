@@ -50,20 +50,20 @@ class BookingForm
 
                 Select::make('status_booking')
                     ->options([
-                        'pending' => 'Pending',
-                        'aktif' => 'Aktif',
+                        'menunggu konfirmasi' => 'Menunggu Konfirmasi',
+                        'dikonfirmasi' => 'Dikonfirmasi',
                         'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
                     ])
-                    ->default('pending'),
+                    ->default('menunggu konfirmasi'),
 
                 Select::make('status_pembayaran')
                     ->options([
-                        'belum_bayar' => 'Belum Bayar',
+                        'belum bayar' => 'Belum Bayar',
                         'dp' => 'DP',
                         'lunas' => 'Lunas',
                     ])
-                    ->default('belum_bayar'),
+                    ->default('belum bayar'),
 
             ]);
     }

@@ -20,7 +20,11 @@ class VehicleForm
                     ->label('Nama Kendaraan')
                     ->required(),
 
-                TextInput::make('jenis')
+                Select::make('jenis')
+                    ->options([
+                        'mobil' => 'Mobil',
+                        'motor' => 'Motor',
+                    ])
                     ->required(),
 
                 TextInput::make('plat_nomor')

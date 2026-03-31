@@ -12,10 +12,7 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        // MVP: Ambil hanya kendaraan yang siap disewa
-        $vehicles = Vehicle::where('status', 'tersedia')
-            ->orderBy('jenis', 'asc') // Urutkan motor dulu/mobil dulu bebas
-            ->get();
+        $vehicles = Vehicle::orderBy('jenis', 'asc')->get();
 
         return view('index', compact('vehicles'));
     }

@@ -80,15 +80,19 @@
                     <p class="mb-3 text-xs font-bold tracking-wide text-gray-400 uppercase">{{ $vehicle->plat_nomor }}
                     </p>
 
-                    <div class="flex items-end justify-between mb-5">
-                        <div class="text-teal-700">
-                            <span class="text-2xl font-extrabold">Rp
-                                {{ number_format($vehicle->harga_per_hari, 0, ',', '.') }}</span>
-                            <span class="text-xs font-medium text-gray-500"> /hari</span>
-                        </div>
+                    <div class="mb-3 text-teal-700">
+                        <span class="text-2xl font-extrabold">Rp
+                            {{ number_format($vehicle->harga_per_hari, 0, ',', '.') }}</span>
+                        <span class="text-xs font-medium text-gray-500"> /hari</span>
+                    </div>
 
-                        <span
-                            class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1.5 rounded-full">Tersedia</span>
+                    <div class="mb-5">
+                        <span @class([
+                            'text-xs font-bold px-3 py-1.5 rounded-full',
+                            'bg-green-100 text-green-700' => $vehicle->status === 'tersedia',
+                            'bg-yellow-100 text-yellow-700' => $vehicle->status === 'disewa',
+                            'bg-red-100 text-red-700' => $vehicle->status === 'maintenance',
+                        ])>{{ ucfirst($vehicle->status) }}</span>
                     </div>
 
                     <button @click="selectedVehicle = {{ $vehicle->toJson() }}; modalOpen = true"
