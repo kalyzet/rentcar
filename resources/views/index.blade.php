@@ -16,17 +16,14 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 </head>
 
-<body class="text-gray-900 bg-gray-50" x-data="{
-    modalOpen: false,
-    selectedVehicle: null,
-    helpModalOpen: false,
-    contactModalOpen: false,
-    currentFilter: 'all',
-    searchQuery: ''
-}">
+<body class="text-gray-900 bg-gray-50" x-data="appData()">
 
     <header class="sticky top-0 z-40 bg-white shadow-sm">
         <nav class="container flex items-center justify-between px-6 py-4 mx-auto">
@@ -305,6 +302,29 @@
                 </div>
             @endforeach
         </div>
+
+        <div x-show="!adaHasil" x-transition.opacity.duration.300ms
+            class="flex flex-col items-center justify-center py-20 text-center" x-cloak>
+
+            <div class="flex items-center justify-center w-24 h-24 mb-6 text-gray-400 bg-gray-100 rounded-full">
+                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 10l4 4m0-4l-4 4">
+                    </path>
+                </svg>
+            </div>
+
+            <h3 class="mb-2 text-2xl font-bold text-gray-800">Kendaraan Tidak Ditemukan</h3>
+            <p class="max-w-md mx-auto text-gray-500">Maaf, tidak ada armada yang sesuai dengan kata kunci atau filter
+                status yang kamu pilih.</p>
+
+            <button @click="searchQuery = ''; currentFilter = 'all'"
+                class="px-6 py-3 mt-6 text-sm font-semibold text-teal-700 transition-colors rounded-full bg-teal-50 hover:bg-teal-100">
+                Reset Pencarian
+            </button>
+        </div>
+
     </main>
 
 
@@ -437,6 +457,41 @@
         </div>
     </div>
 
+    <div x-data="{ showBackToTop: false }" @scroll.window="showBackToTop = window.pageYOffset > 300"
+        class="fixed z-50 bottom-8 right-8" x-cloak>
+
+        <button x-show="showBackToTop && !modalOpen && !helpModalOpen && !contactModalOpen"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4"
+            x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-4"
+            @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+            class="p-3 text-white transition-colors shadow-xl bg-teal-600/90 backdrop-blur-sm rounded-2xl hover:bg-teal-700"
+            title="Kembali ke atas">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        function appData() {
+            return {
+                modalOpen: false,
+                selectedVehicle: null,
+                helpModalOpen: false,
+                contactModalOpen: false,
+                currentFilter: 'all',
+                searchQuery: '',
+                kendaraanList: @json($vehicles->map->only(['nama', 'status'])),
+                get adaHasil() {
+                    return this.kendaraanList.some(k =>
+                        (this.currentFilter === 'all' || this.currentFilter === k.status) &&
+                        k.nama.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    );
+                }
+            };
+        }
+    </script>
 </body>
 
 </html>
