@@ -390,7 +390,7 @@
                 <div class="border-l border-gray-100 md:w-1/2 md:pl-10">
                     <h3 class="mb-8 text-xl font-bold text-gray-800">Form Booking</h3>
 
-                    <form action="#" method="POST" class="space-y-6 text-sm">
+                    <form action="{{ route('booking.store') }}" method="POST" class="space-y-6 text-sm">
                         @csrf
                         <input type="hidden" name="vehicle_id" :value="selectedVehicle?.id">
 
