@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
     </style>
 </head>
 
-<body class="text-gray-900 bg-gray-50" x-data="{ modalOpen: false, selectedVehicle: null }">
+<body class="text-gray-900 bg-gray-50" x-data="{ modalOpen: false, selectedVehicle: null, helpModalOpen: false, contactModalOpen: false }">
 
     <header class="sticky top-0 z-40 bg-white shadow-sm">
         <nav class="container flex items-center justify-between px-6 py-4 mx-auto">
@@ -30,14 +30,172 @@
                 </svg>
                 <span class="text-2xl font-bold text-gray-800">Rental<span class="text-teal-600">yzet</span></span>
             </div>
+
             <div class="flex items-center gap-6 text-sm font-medium text-gray-600">
-                <a href="#" class="hover:text-teal-600">Katalog</a>
-                <a href="#" class="hover:text-teal-600">Cara Pesan</a>
-                <a href="#" class="hover:text-teal-600">Kontak</a>
-                <a href="#"
+                <a href="#katalog" class="hover:text-teal-600">Katalog</a>
+
+                <a href="#" @click.prevent="helpModalOpen = true" class="cursor-pointer hover:text-teal-600">Cara
+                    Pesan</a>
+
+                <a href="#" @click.prevent="contactModalOpen = true"
+                    class="cursor-pointer hover:text-teal-600">Kontak</a>
+
+                <a href="https://wa.me/6281234567890" target="_blank"
                     class="px-4 py-2 text-xs text-white bg-teal-600 rounded-full hover:bg-teal-700">Hubungi Kami</a>
             </div>
         </nav>
+
+        <div x-show="helpModalOpen" style="display: none;"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4" x-cloak>
+
+            <div x-show="helpModalOpen" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black/50 backdrop-blur-sm"
+                @click="helpModalOpen = false">
+            </div>
+
+            <div x-show="helpModalOpen" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                class="relative w-full max-w-lg p-8 bg-white shadow-2xl rounded-3xl">
+
+                <button @click="helpModalOpen = false" class="absolute text-gray-400 top-6 right-6 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l18 18">
+                        </path>
+                    </svg>
+                </button>
+
+                <div class="mb-8 text-center">
+                    <h3 class="text-2xl font-bold text-gray-800">Cara Pesan Kendaraan</h3>
+                    <p class="mt-2 text-sm text-gray-500">Ikuti langkah mudah berikut untuk mulai menyewa.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 font-bold text-teal-600 rounded-full bg-teal-50 shrink-0">
+                            1</div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Pilih Kendaraan</h4>
+                            <p class="text-sm text-gray-600">Lihat katalog kami dan pilih kendaraan yang sesuai dengan
+                                kebutuhanmu.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 font-bold text-teal-600 rounded-full bg-teal-50 shrink-0">
+                            2</div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Isi Form Booking</h4>
+                            <p class="text-sm text-gray-600">Klik "Lihat Detail" dan lengkapi data penyewaan pada form
+                                yang tersedia.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 font-bold text-teal-600 rounded-full bg-teal-50 shrink-0">
+                            3</div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Konfirmasi WhatsApp</h4>
+                            <p class="text-sm text-gray-600">Setelah klik tombol booking, kirimkan pesan konfirmasi
+                                otomatis ke WhatsApp Admin.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 font-bold text-teal-600 rounded-full bg-teal-50 shrink-0">
+                            4</div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Selesai</h4>
+                            <p class="text-sm text-gray-600">Admin akan mengecek ketersediaan dan memandu kamu untuk
+                                proses pembayaran/DP.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button @click="helpModalOpen = false"
+                    class="w-full py-4 mt-8 font-bold text-white transition bg-teal-600 rounded-xl hover:bg-teal-700">
+                    Mengerti, Siap Pesan!
+                </button>
+            </div>
+        </div>
+
+        <div x-show="contactModalOpen" style="display: none;"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4" x-cloak>
+
+            <div x-show="contactModalOpen" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black/50 backdrop-blur-sm"
+                @click="contactModalOpen = false">
+            </div>
+
+            <div x-show="contactModalOpen" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                class="relative w-full max-w-sm p-6 bg-white shadow-2xl rounded-3xl">
+
+                <button @click="contactModalOpen = false"
+                    class="absolute text-gray-400 top-4 right-4 hover:text-gray-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l18 18">
+                        </path>
+                    </svg>
+                </button>
+
+                <div class="mb-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-800">Ikuti Kami</h3>
+                    <p class="text-sm text-gray-500">Temukan info dan promo menarik lainnya.</p>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <a href="https://instagram.com/rentalyzet" target="_blank"
+                        class="flex items-center gap-4 p-3 transition-colors border border-gray-100 rounded-xl hover:bg-gray-50 hover:border-pink-200 group">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 text-pink-500 rounded-lg bg-pink-50 group-hover:bg-pink-100">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-gray-700">@rentalyzet</span>
+                    </a>
+
+                    <a href="https://tiktok.com/@rentalyzet" target="_blank"
+                        class="flex items-center gap-4 p-3 transition-colors border border-gray-100 rounded-xl hover:bg-gray-50 hover:border-gray-300 group">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-100 rounded-lg group-hover:bg-gray-200">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.26-1.17 4.54-3.04 5.92-1.9 1.4-4.43 1.83-6.68 1.25-2.32-.59-4.28-2.31-4.99-4.63-.73-2.37-.2-5.01 1.34-6.95 1.5-1.89 3.93-2.9 6.27-2.61v4.11c-1.07-.15-2.24.16-3.03.92-.81.79-1.11 2.01-.84 3.12.28 1.14 1.26 2.07 2.42 2.3 1.18.23 2.44-.06 3.32-.86.85-.76 1.3-1.87 1.31-3.03.02-4.91.01-9.81.01-14.72z" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-gray-700">@rentalyzet</span>
+                    </a>
+
+                    <a href="mailto:hello@rentalyzet.com"
+                        class="flex items-center gap-4 p-3 transition-colors border border-gray-100 rounded-xl hover:bg-gray-50 hover:border-blue-200 group">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 text-blue-500 rounded-lg bg-blue-50 group-hover:bg-blue-100">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="font-medium text-gray-700">hello@rentalyzet.com</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <section class="relative px-6 py-24 overflow-hidden text-white bg-gray-900">
@@ -64,7 +222,7 @@
     </section>
 
     <main class="container px-6 py-16 mx-auto">
-        <h2 class="mb-10 text-3xl font-extrabold text-gray-800">Daftar Kendaraan</h2>
+        <h2 id="katalog" class="mb-10 text-3xl font-extrabold text-gray-800 scroll-mt-24">Daftar Kendaraan</h2>
 
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach ($vehicles as $vehicle)
