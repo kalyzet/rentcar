@@ -19,7 +19,14 @@
     </style>
 </head>
 
-<body class="text-gray-900 bg-gray-50" x-data="{ modalOpen: false, selectedVehicle: null, helpModalOpen: false, contactModalOpen: false }">
+<body class="text-gray-900 bg-gray-50" x-data="{
+    modalOpen: false,
+    selectedVehicle: null,
+    helpModalOpen: false,
+    contactModalOpen: false,
+    currentFilter: 'all',
+    searchQuery: ''
+}">
 
     <header class="sticky top-0 z-40 bg-white shadow-sm">
         <nav class="container flex items-center justify-between px-6 py-4 mx-auto">
@@ -208,20 +215,27 @@
             <p class="max-w-2xl mx-auto mb-10 text-lg text-gray-200">Sewa mobil service di South Kalimantan. Proses
                 cepat, armada terawat, dan komunikasi langsung via WhatsApp.</p>
 
-            <div class="flex items-center max-w-xl gap-2 p-2 mx-auto bg-white rounded-full shadow-lg">
-                <svg class="w-5 h-5 ml-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center max-w-xl gap-2 p-2 mx-auto bg-white rounded-full shadow-lg h-14">
+                <svg class="w-5 h-5 ml-4 text-gray-400 shrink-0" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
-                <input type="text" placeholder="Sewa dari Kendaraan..."
-                    class="flex-grow p-2 text-sm text-gray-800 focus:outline-none">
-                <button
-                    class="bg-teal-600 text-white font-semibold text-sm px-6 py-2.5 rounded-full hover:bg-teal-700">Sewa</button>
+
+                <input type="text" x-model="searchQuery"
+                    @keydown.enter="document.getElementById('katalog').scrollIntoView({behavior: 'smooth'})"
+                    placeholder="Cari kendaraan (misal: Avanza)..."
+                    class="flex-grow w-full p-2 text-sm text-gray-800 bg-transparent focus:outline-none">
+
+                <button x-show="searchQuery.length > 0" @click="searchQuery = ''" x-cloak
+                    class="px-5 py-2 text-sm font-semibold text-gray-600 transition-colors bg-gray-100 rounded-full shrink-0 hover:bg-red-100 hover:text-red-600">
+                    Bersihkan
+                </button>
             </div>
         </div>
     </section>
 
-    <main x-data="{ currentFilter: 'all' }" class="container px-6 py-16 mx-auto">
+    <main class="container px-6 py-16 mx-auto">
 
         <div class="flex flex-col items-start justify-between gap-4 mb-10 sm:flex-row sm:items-center">
             <h2 id="katalog" class="text-3xl font-extrabold text-gray-800 scroll-mt-24">Daftar Kendaraan</h2>
@@ -240,7 +254,7 @@
 
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach ($vehicles as $vehicle)
-                <div x-show="currentFilter === 'all' || currentFilter === '{{ $vehicle->status }}'"
+                <div x-show="(currentFilter === 'all' || currentFilter === '{{ $vehicle->status }}') && '{{ strtolower($vehicle->nama) }}'.includes(searchQuery.toLowerCase())"
                     x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                     class="flex flex-col p-6 transition-shadow duration-300 bg-white border border-gray-100 rounded-3xl hover:shadow-lg">
