@@ -12,7 +12,8 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = Vehicle::orderBy('jenis', 'asc')->get();
+        // Mengambil semua kendaraan, urutkan yang tersedia agar berada di atas
+        $vehicles = Vehicle::orderByRaw("FIELD(status, 'tersedia', 'disewa', 'maintenance')")->get();
 
         return view('index', compact('vehicles'));
     }

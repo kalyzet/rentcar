@@ -221,13 +221,30 @@
         </div>
     </section>
 
-    <main class="container px-6 py-16 mx-auto">
-        <h2 id="katalog" class="mb-10 text-3xl font-extrabold text-gray-800 scroll-mt-24">Daftar Kendaraan</h2>
+    <main x-data="{ currentFilter: 'all' }" class="container px-6 py-16 mx-auto">
+
+        <div class="flex flex-col items-start justify-between gap-4 mb-10 sm:flex-row sm:items-center">
+            <h2 id="katalog" class="text-3xl font-extrabold text-gray-800 scroll-mt-24">Daftar Kendaraan</h2>
+
+            <div class="flex items-center gap-3">
+                <label for="statusFilter" class="text-sm font-medium text-gray-600">Filter Status:</label>
+                <select id="statusFilter" x-model="currentFilter"
+                    class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 cursor-pointer rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <option value="all">Semua Kendaraan</option>
+                    <option value="tersedia">Tersedia</option>
+                    <option value="disewa">Sedang Disewa</option>
+                    <option value="maintenance">Maintenance</option>
+                </select>
+            </div>
+        </div>
 
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach ($vehicles as $vehicle)
-                <div
+                <div x-show="currentFilter === 'all' || currentFilter === '{{ $vehicle->status }}'"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                     class="flex flex-col p-6 transition-shadow duration-300 bg-white border border-gray-100 rounded-3xl hover:shadow-lg">
+
                     <div
                         class="aspect-[16/10] w-full rounded-2xl overflow-hidden mb-5 bg-gray-50 flex items-center justify-center">
                         <img src="{{ $vehicle->foto ? asset('storage/' . $vehicle->foto) : 'https://placehold.co/400x250?text=No+Photo' }}"
@@ -253,17 +270,24 @@
                         ])>{{ ucfirst($vehicle->status) }}</span>
                     </div>
 
-                    <button @click="selectedVehicle = {{ $vehicle->toJson() }}; modalOpen = true"
-                        class="w-full bg-navy-900 bg-[#001D4A] text-white text-sm font-semibold py-3.5 rounded-xl hover:bg-navy-950 flex items-center justify-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                            </path>
-                        </svg>
-                        Lihat Detail & Pesan
-                    </button>
+                    @if ($vehicle->status === 'tersedia')
+                        <button @click="selectedVehicle = {{ $vehicle->toJson() }}; modalOpen = true"
+                            class="w-full bg-navy-900 bg-[#001D4A] text-white text-sm font-semibold py-3.5 rounded-xl hover:bg-navy-950 flex items-center justify-center gap-2 mt-auto">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                </path>
+                            </svg>
+                            Lihat Detail & Pesan
+                        </button>
+                    @else
+                        <button disabled
+                            class="flex items-center justify-center w-full gap-2 py-3.5 mt-auto text-sm font-semibold text-gray-500 bg-gray-100 rounded-xl cursor-not-allowed">
+                            Tidak Tersedia Saat Ini
+                        </button>
+                    @endif
                 </div>
             @endforeach
         </div>
